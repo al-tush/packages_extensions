@@ -1,13 +1,26 @@
 import 'package:decimal/decimal.dart';
-import 'package:packages_extensions/src/decimal_extension_base.dart';
-import 'package:power_extensions/big_int_extension.dart';
 import 'package:rational/rational.dart';
 
 Rational ten = Rational.fromInt(10);
 
-int scaleAdv(Decimal d) {
-  if (d.toRational().denominator == BigInt.one) {
-    return d.toRational().numerator.scale;
+String trimRightChar(String s, String c) {
+  int i = s.length - 1;
+  for (; i >= 0 && s[i] == c; i--) {}
+  return s.substring(0, i + 1);
+}
+
+main() {
+  print(trimRightChar('abgdfty', 'y'));
+  print(trimRightChar('ab000', '0'));
+  print(trimRightChar('00000', '0'));
+}
+
+int scaleAlt(Decimal d) {
+  if (d.isInteger) {
+    return 0;
   }
-  return d.scaleExt;
+  var s = d.toString();
+  var t = trimRightChar(s, '0');
+  int g = t.substring(s.indexOf('.') + 1, t.length).length;
+  return g;
 }

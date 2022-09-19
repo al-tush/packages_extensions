@@ -21,7 +21,7 @@ void main() {
 
     test('Scale', () {
       var initTime = DateTime.now();
-      var rResult = d.scaleExt;
+      var rResult = d.scaleFast;
       var rMilli = DateTime.now().millisecondsSinceEpoch -
           initTime.millisecondsSinceEpoch;
       expect(rResult, expectedScale);
@@ -30,7 +30,7 @@ void main() {
 
     test('Precision', () {
       var initTime = DateTime.now();
-      var dResult = d.precisionExt;
+      var dResult = d.precisionFast;
       var dMilli = DateTime.now().millisecondsSinceEpoch -
           initTime.millisecondsSinceEpoch;
       expect(dResult, expectedPrecision);
@@ -46,7 +46,7 @@ void main() {
       expect(bigIntResult, expectedSignificand);
       expect(dMilli < 100, isTrue);
     });
-     test('Significand new', () {
+    test('Significand new', () {
       var initTime = DateTime.now();
       var bigIntResult = BigInt.parse(d.significandString);
       var dMilli = DateTime.now().millisecondsSinceEpoch -
@@ -142,14 +142,14 @@ void main() {
     });
     test('Scale', () {
       var initTime = DateTime.now();
-      var rResult = d.scaleExt;
+      var rResult = d.scaleFast;
       var rMilli = DateTime.now().millisecondsSinceEpoch -
           initTime.millisecondsSinceEpoch;
       print('rResult  $rResult in $rMilli');
     });
     test('ScaleUpTo35', () {
       var initTime = DateTime.now();
-      var rResult = d.scaleExt;
+      var rResult = d.scaleFast;
       var rMilli = DateTime.now().millisecondsSinceEpoch -
           initTime.millisecondsSinceEpoch;
       print('rResult $rResult in $rMilli');
@@ -163,7 +163,7 @@ void main() {
     });
     test('Precision', () {
       var initTime = DateTime.now();
-      var rResult = d.precisionExt;
+      var rResult = d.precisionFast;
       var rMilli = DateTime.now().millisecondsSinceEpoch -
           initTime.millisecondsSinceEpoch;
       print('rResult $rResult in $rMilli');

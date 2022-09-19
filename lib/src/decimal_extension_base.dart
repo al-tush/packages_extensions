@@ -2,7 +2,7 @@ import 'package:power_extensions/big_int_extension.dart';
 import 'package:decimal/decimal.dart';
 import 'package:rational/rational.dart';
 
-extension DecimalExt on Decimal {
+extension DecimalExtension on Decimal {
   /// HasFinitePrecision
   ///
   /// Returns `true` if this [Decimal] has a finite precision.
@@ -57,14 +57,16 @@ extension DecimalExt on Decimal {
   /// The scale of this [Decimal].
   ///
   /// The scale is the number of digits after the decimal point.
+  /// This method works like the scale one, but it is faster.
   ///
   /// ```dart
-  /// Decimal.parse('1.5').scale; // => 1
-  /// Decimal.parse('1').scale; // => 0
+  /// Decimal.parse('1.5').scaleFast; // => 1
+  /// Decimal.parse('1').scaleFast; // => 0
+  /// Decimal.parse('120').scaleFast; // => 0
   /// ```
   /// Please note that his is the effective scale, i.e. 1.010 return 2
   /// Also, this method does not consider negative scales
-  int get scaleExt {
+  int get scaleFast {
     var i = 0;
     var x = toRational();
     var denominator = x.denominator.abs();
@@ -81,6 +83,23 @@ extension DecimalExt on Decimal {
     return i;
   }
 
+  /// The scale of this [Decimal].
+  ///
+  /// The scale is the number of digits after the decimal point or the exponent
+  /// (in negative form) of ten that multiplied for the significand returns the
+  /// originl number.
+  ///
+  /// The number can be represented as: significand * 10^(-scaleAdv)
+  ///
+  /// ```dart
+  /// Decimal.parse('1.5').scaleAdv; // => 1
+  /// Decimal.parse('1').scaleAdv; // => 0
+  /// Decimal.parse('120').scaleAdv; // => -1
+  /// ```
+  /// Please note that this is the effective scale, i.e. 1.010 return 2
+  /// Also, this method calculate also negative scales
+  int get scaleAdv => isInteger ? toRational().numerator.scale : scaleFast;
+
   /// The precision of this [Decimal].
   ///
   /// The precision is the number of digits in the unscaled value.
@@ -93,10 +112,7 @@ extension DecimalExt on Decimal {
   /// ```
   /// Please note that this is the effective precision, i.e. 1.010 returns 3
   /// because the last zero is not considered
-  int get precisionExt {
-    final value = abs();
-    return value.scaleExt + value.toBigInt().precision;
-  }
+  int get precisionFast => scaleFast + toBigInt().precision;
 
   /// Provides a faster approach than the orginal method
   String toStringAsPrecisionFast(int requiredPrecision) {
@@ -151,7 +167,7 @@ extension DecimalExt on Decimal {
     /// direction, must be subtracted.
     /// The exponent for shifting the value is made by the formula:
     /// `requiredPrecision - (precision - scale)`
-    var shiftExponent = requiredPrecision - (precisionExt - scaleExt);
+    var shiftExponent = requiredPrecision - (precisionFast - scaleFast);
 
     Decimal value;
     if (shiftExponent == 0) {

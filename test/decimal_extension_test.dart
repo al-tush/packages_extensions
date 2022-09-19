@@ -198,76 +198,141 @@ void main() {
     });
 
     test('Simple integer', () {
-      expect(scaleAdv(dec1), 0);
-      expect(dec1.scaleExt, 0);
+      expect(dec1.scaleAdv, 0);
+      expect(dec1.scaleFast, 0);
       expect(dec1.scale, 0);
     });
     test('Integer that can be divided by ten', () {
-      expect(scaleAdv(dec2), -1);
-      expect(dec2.scaleExt, 0);
+      expect(dec2.scaleAdv, -1);
+      expect(dec2.scaleFast, 0);
       expect(dec2.scale, 0);
     });
     test('Decimal < 1', () {
-      expect(scaleAdv(dec3), 2);
-      expect(dec3.scaleExt, 2);
+      expect(dec3.scaleAdv, 2);
+      expect(dec3.scaleFast, 2);
       expect(dec3.scale, 2);
     });
     test('Decimal > 1', () {
-      expect(scaleAdv(dec4), 3);
-      expect(dec4.scaleExt, 3);
+      expect(dec4.scaleAdv, 3);
+      expect(dec4.scaleFast, 3);
       expect(dec4.scale, 3);
     });
     test('Decimal > 1 with leading and trailing zeros', () {
-      expect(scaleAdv(dec5), 3);
-      expect(dec5.scaleExt, 3);
+      expect(dec5.scaleAdv, 3);
+      expect(dec5.scaleFast, 3);
       expect(dec5.scale, 3);
     });
     test('Very Small Number', () {
-      expect(scaleAdv(dec6), 6177);
-      expect(dec6.scaleExt, 6177);
+      expect(dec6.scaleAdv, 6177);
+      expect(dec6.scaleFast, 6177);
       expect(dec6.scale, 6177);
     });
     test('Very High Number with decimal mantissa', () {
-      expect(scaleAdv(dec7), -6111);
-      expect(dec7.scaleExt, 0);
+      expect(dec7.scaleAdv, -6111);
+      expect(dec7.scaleFast, 0);
       expect(dec7.scale, 0);
     });
 
     test('Very High Number with integer mantissa', () {
-      expect(scaleAdv(dec8), -6144);
-      expect(dec8.scaleExt, 0);
+      expect(dec8.scaleAdv, -6144);
+      expect(dec8.scaleFast, 0);
       expect(dec8.scale, 0);
     });
     test('Very small negative Number', () {
-      expect(scaleAdv(dec9), 6177);
-      expect(dec9.scaleExt, 6177);
+      expect(dec9.scaleAdv, 6177);
+      expect(dec9.scaleFast, 6177);
       expect(dec9.scale, 6177);
     });
 
     test('Negative Integer that can be divided by ten', () {
-      expect(scaleAdv(dec10), -1);
-      expect(dec10.scaleExt, 0);
+      expect(dec10.scaleAdv, -1);
+      expect(dec10.scaleFast, 0);
       expect(dec10.scale, 0);
     });
     test('Negative Integer less than ten', () {
-      expect(scaleAdv(dec11), 0);
-      expect(dec11.scaleExt, 0);
+      expect(dec11.scaleAdv, 0);
+      expect(dec11.scaleFast, 0);
       expect(dec11.scale, 0);
     });
     test('Zero', () {
-      expect(scaleAdv(dec12), 0);
-      expect(dec12.scaleExt, 0);
+      expect(dec12.scaleAdv, 0);
+      expect(dec12.scaleFast, 0);
       expect(dec12.scale, 0);
     });
     test('-1', () {
-      expect(scaleAdv(dec13), 0);
-      expect(dec13.scaleExt, 0);
+      expect(dec13.scaleAdv, 0);
+      expect(dec13.scaleFast, 0);
       expect(dec13.scale, 0);
     });
     test('negative Decimal > 1 with leading and trailing zeros', () {
-      expect(scaleAdv(dec14), 3);
-      expect(dec14.scaleExt, 3);
+      expect(dec14.scaleAdv, 3);
+      expect(dec14.scaleFast, 3);
       expect(dec14.scale, 3);
+    });
+  });
+
+  group('Precision', () {
+    setUp(() {
+      // Additional setup goes here.
+    });
+
+    test('Simple integer', () {
+      expect(dec1.precisionFast, 1);
+      expect(dec1.precision, 1);
+    });
+    test('Integer that can be divided by ten', () {
+      expect(dec2.precisionFast, 3);
+      expect(dec2.precision, 3);
+    });
+    test('Decimal < 1', () {
+      expect(dec3.precisionFast, 3);
+      expect(dec3.precision, 3);
+    });
+    test('Decimal > 1', () {
+      expect(dec4.precisionFast, 5);
+      expect(dec4.precision, 5);
+    });
+    test('Decimal > 1 with leading and trailing zeros', () {
+      expect(dec5.precisionFast, 5);
+      expect(dec5.precision, 5);
+    });
+    test('Very Small Number', () {
+      expect(dec6.precisionFast, 6178);
+      expect(dec6.precision, 6178);
+    });
+    test('Very High Number with decimal mantissa', () {
+      expect(dec7.precisionFast, 6145);
+      expect(dec7.precision, 6145);
+    });
+
+    test('Very High Number with integer mantissa', () {
+      expect(dec8.precisionFast, 6178);
+      expect(dec8.precision, 6178);
+    });
+    test('Very small negative Number', () {
+      expect(dec9.precisionFast, 6178);
+      expect(dec9.precision, 6178);
+    });
+
+    test('Negative Integer that can be divided by ten', () {
+      expect(dec10.precisionFast, 2);
+      expect(dec10.precision, 2);
+    });
+    test('Negative Integer less than ten', () {
+      expect(dec11.precisionFast, 1);
+      expect(dec11.precision, 1);
+    });
+    test('Zero', () {
+      expect(dec12.precisionFast, 1);
+      expect(dec12.precision, 1);
+    });
+    test('-1', () {
+      expect(dec13.precisionFast, 1);
+      expect(dec13.precision, 1);
+    });
+    test('negative Decimal > 1 with leading and trailing zeros', () {
+      expect(dec14.precisionFast, 5);
+      expect(dec14.precision, 5);
     });
   });
 }

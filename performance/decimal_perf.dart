@@ -75,32 +75,76 @@ void main(List<String> args) {
     }
   });
 
-  millisecondsPerformance('scale Ext', () {
+  millisecondsPerformance('scale Fast', () {
     for (int i = 0; i < 30; i++) {
-      dec1.scaleExt;
-      dec2.scaleExt;
-      dec3.scaleExt;
-      dec4.scaleExt;
-      dec5.scaleExt;
-      dec6.scaleExt;
-      dec7.scaleExt;
-      dec8.scaleExt;
-      dec9.scaleExt;
-      dec10.scaleExt;
+      dec1.scaleFast;
+      dec2.scaleFast;
+      dec3.scaleFast;
+      dec4.scaleFast;
+      dec5.scaleFast;
+      dec6.scaleFast;
+      dec7.scaleFast;
+      dec8.scaleFast;
+      dec9.scaleFast;
+      dec10.scaleFast;
     }
   });
   millisecondsPerformance('scale Adv', () {
     for (int i = 0; i < 30; i++) {
-      scaleAdv(dec1);
-      scaleAdv(dec2);
-      scaleAdv(dec3);
-      scaleAdv(dec4);
-      scaleAdv(dec5);
-      scaleAdv(dec6);
-      scaleAdv(dec7);
-      scaleAdv(dec8);
-      scaleAdv(dec9);
-      scaleAdv(dec10);
+      dec1.scaleAdv;
+      dec2.scaleAdv;
+      dec3.scaleAdv;
+      dec4.scaleAdv;
+      dec5.scaleAdv;
+      dec6.scaleAdv;
+      dec7.scaleAdv;
+      dec8.scaleAdv;
+      dec9.scaleAdv;
+      dec10.scaleAdv;
+    }
+  });
+  millisecondsPerformance('scale Alt', () {
+    for (int i = 0; i < 30; i++) {
+      scaleAlt(dec1);
+      scaleAlt(dec2);
+      scaleAlt(dec3);
+      scaleAlt(dec4);
+      scaleAlt(dec5);
+      scaleAlt(dec6);
+      scaleAlt(dec7);
+      scaleAlt(dec8);
+      scaleAlt(dec9);
+      scaleAlt(dec10);
+    }
+  });
+
+  millisecondsPerformance('precision Standard', () {
+    for (int i = 0; i < 30; i++) {
+      dec1.precision;
+      dec2.precision;
+      dec3.precision;
+      dec4.precision;
+      dec5.precision;
+      dec6.precision;
+      dec7.precision;
+      dec8.precision;
+      dec9.precision;
+      dec10.precision;
+    }
+  });
+
+  millisecondsPerformance('precision Fast', () {
+    for (int i = 0; i < 30; i++) {
+      dec1.precisionFast;
+      dec2.precisionFast;
+      dec3.precisionFast;
+      dec4.precisionFast;
+      dec5.precisionFast;
+      dec6.precisionFast;
+      dec7.precisionFast;
+      dec8.precisionFast;
+      dec9.precisionFast;
+      dec10.precisionFast;
     }
   });
 }
