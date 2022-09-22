@@ -7,7 +7,7 @@ import 'package:decimal/decimal.dart';
 void main() {
   void innerTests(Rational r, Decimal d, int expectedScale,
       int expectedPrecision, BigInt expectedSignificand) {
-    test('hasFinitePrecision', () {
+/*     test('hasFinitePrecision', () {
       var rResult = r.hasFinitePrecision;
 
       var initTime = DateTime.now();
@@ -17,7 +17,7 @@ void main() {
 
       expect(rResult, dResult);
       expect(dMilli < 100, isTrue);
-    });
+    }); */
 
     test('Scale', () {
       var initTime = DateTime.now();

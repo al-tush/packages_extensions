@@ -1,3 +1,4 @@
+import 'package:packages_extensions/src/rational_extension_base.dart';
 import 'package:power_extensions/big_int_extension.dart';
 import 'package:decimal/decimal.dart';
 import 'package:rational/rational.dart';
@@ -73,7 +74,7 @@ extension DecimalExtension on Decimal {
     if (denominator.isPowerOfTen) {
       var originalDenLength = denominator.toString().length;
       x = Rational(x.numerator,
-          BigIntExtension.ten.pow(x.numerator.abs().toString().length));
+          BigIntExtensionBase.ten.pow(x.numerator.abs().toString().length));
       i = originalDenLength - x.denominator.abs().toString().length;
     }
     while (!x.isInteger) {
@@ -126,20 +127,20 @@ extension DecimalExtension on Decimal {
     // than the required one.
     // The exact calculation will be done in the recursive call to
     // this method.
-    if (!hasFinitePrecision) {
-      /// in case of fractional digits starting with many zeros,
-      /// we risk to loose precision, so, to compensate,
-      /// we add the denominator precision.
-      /// As there is not a precision method in the BigInt class
-      /// we use the shortcut of creating a string and calculating
-      /// the length. Maybe that there is a cleaner way,
-      var pwr =
+    //if (!hasFinitePrecision) {
+    /// in case of fractional digits starting with many zeros,
+    /// we risk to loose precision, so, to compensate,
+    /// we add the denominator precision.
+    /// As there is not a precision method in the BigInt class
+    /// we use the shortcut of creating a string and calculating
+    /// the length. Maybe that there is a cleaner way,
+    /* var pwr =
           requiredPrecision + toRational().denominator.toRadixString(10).length;
       var shifter = Decimal.ten.pow(pwr);
       Decimal decimal =
           ((toRational() * shifter).round().toRational() / shifter).toDecimal();
-      return decimal.toStringAsPrecisionFast(requiredPrecision);
-    }
+      return decimal.toStringAsPrecisionFast(requiredPrecision); */
+    //}
 
     /// The shift exponent is used to calculate the value of the number
     /// to round in order to loose precision (if exceeding the required one)
@@ -182,10 +183,10 @@ extension DecimalExtension on Decimal {
       /// precision digits (if any), and then we move back the digits in the
       /// opposite direction.
       value = ((toRational() * coefficient).round().toRational() / coefficient)
-          .toDecimal();
+          .roundToDecimal();
     }
 
-    return shiftExponent <= 0
+    return shiftExponent < 0
         ? value.toString()
         : value.toStringAsFixed(shiftExponent);
   }
