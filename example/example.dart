@@ -8,7 +8,8 @@ void main() {
   Decimal dec1 = Decimal.parse('-19037.0045');
 
   // Ratiobal
-  print(rationalInfinite.roundToDecimal()); // 0.333333333
+  print(rationalInfinite.roundToDecimal()); // 0.3333333333
+
   // Decimal
   print(dec1.isNegative); // true
   print(dec1.significandString); // 190370045
