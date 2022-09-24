@@ -3,6 +3,7 @@ import 'package:packages_extensions/packages_extensions.dart';
 import 'package:test/test.dart';
 
 import '../performance/decimal_classes/significand_string_original.dart';
+import 'throws_assertion_error.dart';
 
 void main() {
   Decimal dec1 = Decimal.fromInt(5);
@@ -594,6 +595,380 @@ void main() {
     test('negative Decimal > 1 with leading and trailing zeros', () {
       expect(dec14.toStringAsPrecisionFast(2), '-10');
       expect(dec14.toStringAsPrecision(2), '-10');
+    });
+    group('Error', () {
+      Decimal d = Decimal.parse('1234.567');
+
+      test('Required precision 0', () {
+        var requiredPosition = 0;
+        expect(() {
+          d.toStringAsPrecisionFast(requiredPosition);
+        }, throwsArgumentError);
+        expect(() {
+          d.toStringAsPrecision(requiredPosition);
+        }, throwsAssertionError);
+      });
+    });
+    group('Precision 7 scale 3', () {
+      test('Required precision 9', () {
+        Decimal d = Decimal.parse('1234.567');
+        var requiredPosition = 9;
+        expect(d.toStringAsPrecisionFast(requiredPosition), '1234.56700');
+        expect(d.toStringAsPrecision(requiredPosition), '1234.56700');
+      });
+      test('Required precision 8', () {
+        Decimal d = Decimal.parse('1234.567');
+        var requiredPosition = 8;
+        expect(d.toStringAsPrecisionFast(requiredPosition), '1234.5670');
+        expect(d.toStringAsPrecision(requiredPosition), '1234.5670');
+      });
+      test('Required precision 7', () {
+        Decimal d = Decimal.parse('1234.567');
+        var requiredPosition = 7;
+        expect(d.toStringAsPrecisionFast(requiredPosition), '1234.567');
+        expect(d.toStringAsPrecision(requiredPosition), '1234.567');
+      });
+      test('Required precision 6', () {
+        Decimal d = Decimal.parse('1234.567');
+        var requiredPosition = 6;
+        expect(d.toStringAsPrecisionFast(requiredPosition), '1234.57');
+        expect(d.toStringAsPrecision(requiredPosition), '1234.57');
+      });
+      test('Required precision 5', () {
+        Decimal d = Decimal.parse('1234.567');
+        var requiredPosition = 5;
+        expect(d.toStringAsPrecisionFast(requiredPosition), '1234.6');
+        expect(d.toStringAsPrecision(requiredPosition), '1234.6');
+      });
+      test('Required precision 4', () {
+        Decimal d = Decimal.parse('1234.567');
+        var requiredPosition = 4;
+        var expectedResult = '1235';
+
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 3', () {
+        Decimal d = Decimal.parse('1234.567');
+        var requiredPosition = 3;
+        var expectedResult = '1230';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 2', () {
+        Decimal d = Decimal.parse('1234.567');
+        var requiredPosition = 2;
+        var expectedResult = '1200';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 1', () {
+        Decimal d = Decimal.parse('1234.567');
+        var requiredPosition = 1;
+        var expectedResult = '1000';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+    });
+    group('Precision 7 scale 0', () {
+      Decimal d = Decimal.parse('1234567');
+
+      test('Required precision 9', () {
+        var requiredPosition = 9;
+        var expectedResult = '1234567.00';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 8', () {
+        var requiredPosition = 8;
+        var expectedResult = '1234567.0';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 7', () {
+        var requiredPosition = 7;
+        var expectedResult = '1234567';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 6', () {
+        var requiredPosition = 6;
+        var expectedResult = '1234570';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 5', () {
+        var requiredPosition = 5;
+        var expectedResult = '1234600';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 4', () {
+        var requiredPosition = 4;
+        var expectedResult = '1235000';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 3', () {
+        var requiredPosition = 3;
+        var expectedResult = '1230000';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 2', () {
+        var requiredPosition = 2;
+        var expectedResult = '1200000';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 1', () {
+        var requiredPosition = 1;
+        var expectedResult = '1000000';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+    });
+    group('Precision 7 scale 1', () {
+      Decimal d = Decimal.parse('123456.7');
+
+      test('Required precision 9', () {
+        var requiredPosition = 9;
+        var expectedResult = '123456.700';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 8', () {
+        var requiredPosition = 8;
+        var expectedResult = '123456.70';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 7', () {
+        var requiredPosition = 7;
+        var expectedResult = '123456.7';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 6', () {
+        var requiredPosition = 6;
+        var expectedResult = '123457';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 5', () {
+        var requiredPosition = 5;
+        var expectedResult = '123460';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 4', () {
+        var requiredPosition = 4;
+        var expectedResult = '123500';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 3', () {
+        var requiredPosition = 3;
+        var expectedResult = '123000';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 2', () {
+        var requiredPosition = 2;
+        var expectedResult = '120000';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 1', () {
+        var requiredPosition = 1;
+        var expectedResult = '100000';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+    });
+    group('Precision 7 scale 6', () {
+      Decimal d = Decimal.parse('1.234567');
+
+      test('Required precision 9', () {
+        var requiredPosition = 9;
+        var expectedResult = '1.23456700';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 8', () {
+        var requiredPosition = 8;
+        var expectedResult = '1.2345670';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 7', () {
+        var requiredPosition = 7;
+        var expectedResult = '1.234567';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 6', () {
+        var requiredPosition = 6;
+        var expectedResult = '1.23457';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 5', () {
+        var requiredPosition = 5;
+        var expectedResult = '1.2346';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 4', () {
+        var requiredPosition = 4;
+        var expectedResult = '1.235';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 3', () {
+        var requiredPosition = 3;
+        var expectedResult = '1.23';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 2', () {
+        var requiredPosition = 2;
+        var expectedResult = '1.2';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 1', () {
+        var requiredPosition = 1;
+        var expectedResult = '1';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+    });
+
+    group('Decimal Precision 7 scale 6', () {
+      Decimal d = Decimal.parse('0.023456');
+
+      test('Required precision 9', () {
+        var requiredPosition = 9;
+        var expectedResult = '0.02345600';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        //Todo check behavior
+        expect(d.toStringAsPrecision(requiredPosition), '0.0234560000');
+      });
+      test('Required precision 8', () {
+        var requiredPosition = 8;
+        var expectedResult = '0.0234560';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        //Todo check behavior
+        expect(d.toStringAsPrecision(requiredPosition), '0.023456000');
+      });
+      test('Required precision 7', () {
+        var requiredPosition = 7;
+        var expectedResult = '0.023456';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        //Todo check behavior
+        expect(d.toStringAsPrecision(requiredPosition), '0.02345600');
+      });
+      test('Required precision 6', () {
+        var requiredPosition = 6;
+        var expectedResult = '0.02346';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        //Todo check behavior
+        expect(d.toStringAsPrecision(requiredPosition), '0.0234560');
+      });
+      test('Required precision 5', () {
+        var requiredPosition = 5;
+        var expectedResult = '0.0235';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        //Todo check behavior
+        expect(d.toStringAsPrecision(requiredPosition), '0.023456');
+      });
+      test('Required precision 4', () {
+        var requiredPosition = 4;
+        var expectedResult = '0.023';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        //Todo check behavior
+        expect(d.toStringAsPrecision(requiredPosition), '0.02346');
+      });
+      test('Required precision 3', () {
+        var requiredPosition = 3;
+        var expectedResult = '0.02';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        //Todo check behavior
+        expect(d.toStringAsPrecision(requiredPosition), '0.0235');
+      });
+      test('Required precision 2', () {
+        var requiredPosition = 2;
+        var expectedResult = '0.0';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        //Todo check behavior
+        expect(d.toStringAsPrecision(requiredPosition), '0.023');
+      });
+      test('Required precision 1', () {
+        var requiredPosition = 1;
+        var expectedResult = '0';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        //Todo check behavior
+        expect(d.toStringAsPrecision(requiredPosition), '0.02');
+      });
+    });
+    group('Decimal Precision 7 scale 6 - value > 1', () {
+      Decimal d = Decimal.parse('1.023456');
+
+      test('Required precision 9', () {
+        var requiredPosition = 9;
+        var expectedResult = '1.02345600';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 8', () {
+        var requiredPosition = 8;
+        var expectedResult = '1.0234560';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 7', () {
+        var requiredPosition = 7;
+        var expectedResult = '1.023456';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 6', () {
+        var requiredPosition = 6;
+        var expectedResult = '1.02346';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 5', () {
+        var requiredPosition = 5;
+        var expectedResult = '1.0235';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 4', () {
+        var requiredPosition = 4;
+        var expectedResult = '1.023';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 3', () {
+        var requiredPosition = 3;
+        var expectedResult = '1.02';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 2', () {
+        var requiredPosition = 2;
+        var expectedResult = '1.0';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
+      test('Required precision 1', () {
+        var requiredPosition = 1;
+        var expectedResult = '1';
+        expect(d.toStringAsPrecisionFast(requiredPosition), expectedResult);
+        expect(d.toStringAsPrecision(requiredPosition), expectedResult);
+      });
     });
   });
 }

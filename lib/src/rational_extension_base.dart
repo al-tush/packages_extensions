@@ -2,11 +2,11 @@ import 'package:decimal/decimal.dart';
 import 'package:rational/rational.dart';
 
 extension RationalExtensionBase on Rational {
-  /// Converts a Rational to a Decimal safely using the rounding priciple
+  /// Converts a Rational to a Decimal safely using the rounding principle
   ///
   /// This methos uses a rounding principle if needed instead of a truncation
   /// like the standard one does.
-  /// If the scaleOnInfinitePrecision parameter is passed, both finite and
+  /// If the scaleOnInfinitePrecision parameter is passed, the
   /// infinite values are rounded to the required scale.
   /// Otherwise finite values are left as they are and infinite are truncated
   /// at the tenth decimal.

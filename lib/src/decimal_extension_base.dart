@@ -22,7 +22,7 @@ extension DecimalExtension on Decimal {
   /// Returns `true` if this [Decimal] is = zero.
   bool get isZero => this == Decimal.zero;
 
-  static final _r10 = Rational.fromInt(10);
+  static final _rTen = Rational.fromInt(10);
 
   /// Significand
   ///
@@ -79,7 +79,7 @@ extension DecimalExtension on Decimal {
     }
     while (!x.isInteger) {
       i++;
-      x *= _r10;
+      x *= _rTen;
     }
     return i;
   }
@@ -115,60 +115,23 @@ extension DecimalExtension on Decimal {
   /// because the last zero is not considered
   int get precisionFast => scaleFast + toBigInt().precision;
 
+  /// Format a String to a certain position
+  ///
   /// Provides a faster approach than the orginal method
+  /// **Please note** that in some cases the result is different from
+  /// base calss method `toStringAsPrecision()`
   String toStringAsPrecisionFast(int requiredPrecision) {
-    assert(requiredPrecision > 0);
+    if (requiredPrecision <= 0) {
+      throw ArgumentError.value(requiredPrecision);
+    }
 
-    // this method is not able to manage rationals with infinite precision,
-    // so we transform all numbers with infinite precision into
-    // finite precision ones.
-    // It is not important to calculate the exact precision of the new
-    // number, what is fundament is that the new precision must not be lesser
-    // than the required one.
-    // The exact calculation will be done in the recursive call to
-    // this method.
-    //if (!hasFinitePrecision) {
-    /// in case of fractional digits starting with many zeros,
-    /// we risk to loose precision, so, to compensate,
-    /// we add the denominator precision.
-    /// As there is not a precision method in the BigInt class
-    /// we use the shortcut of creating a string and calculating
-    /// the length. Maybe that there is a cleaner way,
-    /* var pwr =
-          requiredPrecision + toRational().denominator.toRadixString(10).length;
-      var shifter = Decimal.ten.pow(pwr);
-      Decimal decimal =
-          ((toRational() * shifter).round().toRational() / shifter).toDecimal();
-      return decimal.toStringAsPrecisionFast(requiredPrecision); */
-    //}
+    var locPrecision = precisionFast;
+    var locScale = scaleFast;
+    var shiftExponent = requiredPrecision - locPrecision + locScale;
 
-    /// The shift exponent is used to calculate the value of the number
-    /// to round in order to loose precision (if exceeding the required one)
-    ///
-    /// `(precision - scale)`
-    /// here we calculate how many digits and in which direction we have to
-    /// move the fractional separator in order to obtain fields of the format
-    /// `0.xxxxxxx`
-    /// For example:
-    ///              1230   125.78   0.0034
-    ///              ^ (4)  ^ (3)    (-2)^
-    ///             (4-0=>4)(5-2=>3)(2-4=>-2)
-    ///              .1230  .12578   .34
-    /// Now that we have the field in `0.xxxxx` format, we shift left for the
-    /// number of required precision digits.
-    /// For example:
-    /// Precision -> 3
-    ///              .1230  .12578   .34
-    ///               123   125.78   340
-    /// Precision -> 1
-    ///              .1230  .12578   .34
-    ///              1.230  1.2578   3.4
-    /// As the required precision augments the exponent that we calculate,
-    /// the previous calculation (precision - scale), that goes in the opposite
-    /// direction, must be subtracted.
-    /// The exponent for shifting the value is made by the formula:
-    /// `requiredPrecision - (precision - scale)`
-    var shiftExponent = requiredPrecision - (precisionFast - scaleFast);
+    if (locPrecision <= requiredPrecision) {
+      return toStringAsFixed(shiftExponent);
+    }
 
     Decimal value;
     if (shiftExponent == 0) {
@@ -186,8 +149,8 @@ extension DecimalExtension on Decimal {
           .roundToDecimal();
     }
 
-    return shiftExponent < 0
-        ? value.toString()
+    return shiftExponent <= 0
+        ? value.round().toString()
         : value.toStringAsFixed(shiftExponent);
   }
 }
