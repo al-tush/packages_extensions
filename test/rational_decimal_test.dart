@@ -1,4 +1,6 @@
 @TestOn('vm')
+library;
+
 import 'package:packages_extensions/decimal_extension.dart';
 import 'package:test/test.dart';
 import 'package:rational/rational.dart';

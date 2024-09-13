@@ -1,16 +1,16 @@
 name: packages_extensions
 description: Extensions for non Dart core packages.
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/giorgiofran/packages_extensions.git
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=3.5.0 <4.0.0'
 
 dependencies:
-  decimal: ^2.0.0
+  decimal: ^3.0.0
   rational: ^2.0.0
   power_extensions: ^0.2.0
 
 dev_dependencies:
-  lints: ^2.0.0
+  lints: ^4.0.0
   test: ^1.16.0
